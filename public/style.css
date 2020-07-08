@@ -19,3 +19,20 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.fontSizeLarge {
+  font-size: large;
+}
+
+.fontItalics {
+  font-style: italic;
+}
+
+.fontBold {
+  font-weight: bold;
+}
+
+.reviewSize {
+  width: 100em;
+  height: 25em;
+}

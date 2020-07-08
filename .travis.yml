@@ -13,15 +13,18 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "the-virtual-mall-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
   - npm test # test the code
   - npm run build-client # make the bundle
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
+# before_deploy: # omit node_modules, since we set skip_cleanup below
+#   - rm -rf node_modules
+# deploy: # see README for details on these keys
+#   # prevents travis from deleting the build
+#   skip_cleanup: true
 #   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
+#   # app should be your heroku app name; see README
+#   app: the-virtual-mall
+#   # the secure key indicates an encrypted value; see README
 #   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+#     secure:

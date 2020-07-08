@@ -1,10 +1,16 @@
-const router = require('express').Router()
-module.exports = router
+const router = require('express').Router();
+module.exports = router;
 
-router.use('/users', require('./users'))
+router.use('/users', require('./users'));
+router.use('/cart', require('./cart'));
+router.use('/products', require('./products'));
+router.use('/order', require('./order'));
+router.use('/categories', require('./categories'));
+router.use('/checkout', require('./checkout'));
+router.use('/review', require('./review'));
 
 router.use((req, res, next) => {
-  const error = new Error('Not Found')
-  error.status = 404
-  next(error)
-})
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
