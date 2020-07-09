@@ -1,25 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { updateCartThunk } from '../store/cart';
 
 class DisconnectedAddToCart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false
+    };
+  }
+
+  addItemToCart = async () => {
+    this.setState({ loading: true });
+    await this.props.addToCart(this.props.orderProducts);
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 150);
+  };
+
   render() {
     this.props.orderProducts.orderId = this.props.cart.id;
+    const { loading } = this.state;
 
     return (
-      <Button
-        animated
-        onClick={() => {
-          this.props.addToCart(this.props.orderProducts);
-        }}
-      >
-        <Button.Content hidden>
-          <Icon name="shop" />
-        </Button.Content>
-        <Button.Content visible>
-          {this.props.buyItAgain ? 'Buy it Again' : 'Add to Cart'}
-        </Button.Content>
+      <Button primary loading={loading} onClick={this.addItemToCart}>
+        Add to Cart
       </Button>
     );
   }
@@ -27,13 +33,13 @@ class DisconnectedAddToCart extends React.Component {
 
 const mapState = state => {
   return {
-    cart: state.cart,
+    cart: state.cart
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    addToCart: cart => dispatch(updateCartThunk(cart)),
+    addToCart: cart => dispatch(updateCartThunk(cart))
   };
 };
 

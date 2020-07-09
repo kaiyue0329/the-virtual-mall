@@ -8,7 +8,7 @@ const {
   Category,
   ShippingAddress,
   Order,
-  orderProduct,
+  orderProduct
 } = require('../server/db/models');
 
 const faker = require('faker');
@@ -23,7 +23,7 @@ const images = [
   '/spa-supplies.jpg',
   '/wrist-watches.jpg',
   '/brown-men-shoes.jpg',
-  '/blue-men-shoes.jpg',
+  '/blue-men-shoes.jpg'
 ];
 
 let categories = [];
@@ -35,7 +35,7 @@ const createProduct = async () => {
       picture: images[Math.floor(Math.random() * 10)],
       description: faker.lorem.paragraph(),
       price: Math.floor(Math.random() * 100000 + 1),
-      inventoryQuantity: Math.floor(Math.random() * 100 + 1),
+      inventoryQuantity: Math.floor(Math.random() * 100 + 1)
     };
     await Product.create(product);
   }
@@ -44,7 +44,7 @@ const createProduct = async () => {
 const createCategory = async () => {
   for (let i = 0; i < 50; i++) {
     const category = {
-      name: faker.commerce.department(),
+      name: faker.commerce.department()
     };
     if (!categories.includes(category.name) && categories.length <= 50) {
       await Category.create(category);
@@ -65,13 +65,17 @@ const setCategoryOnProduct = async () => {
 
 const createUser = async () => {
   for (let i = 0; i < 30; i++) {
+    const email = faker.internet.email();
+    const username = email.split('@')[0];
     const user = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: faker.internet.email(),
+      username: username,
+      email: email,
+      profilePicture: `https://robohash.org/${email}`,
       password: faker.internet.password(),
       isAdmin: faker.random.boolean(),
-      shippingAddressId: Math.floor(Math.random() * 30 + 1),
+      shippingAddressId: Math.floor(Math.random() * 30 + 1)
     };
     await User.create(user);
   }
@@ -84,7 +88,7 @@ const createShippingAddress = async () => {
       city: faker.address.city(),
       zipCode: faker.address.zipCode(),
       state: faker.address.stateAbbr(),
-      country: faker.address.country(),
+      country: faker.address.country()
     };
     await ShippingAddress.create(shippingAddress);
   }
@@ -96,7 +100,7 @@ const createReview = async () => {
       userId: Math.floor(Math.random() * 30) + 1,
       productId: Math.floor(Math.random() * 400) + 1,
       star: Math.floor(Math.random() * 5) + 1,
-      text: faker.lorem.paragraphs(),
+      text: faker.lorem.paragraphs()
     };
     await Review.create(review);
   }
@@ -108,13 +112,13 @@ const createOrder = async () => {
     'created',
     'processed',
     'cancelled',
-    'completed',
+    'completed'
   ];
   for (let i = 0; i < 400; i++) {
     const order = {
       userId: Math.floor(Math.random() * 30) + 1,
       sessionId: Math.floor(Math.random() * 400) + 1,
-      status: statusOptions[Math.floor(Math.random() * 5)],
+      status: statusOptions[Math.floor(Math.random() * 5)]
     };
     await Order.create(order);
   }
@@ -126,7 +130,7 @@ const createOrderProduct = async () => {
       orderId: i,
       productId: Math.floor(Math.random() * 400) + 1,
       quantity: Math.floor(Math.random() * 10 + 1),
-      productPrice: Math.floor(Math.random() * 100000 + 1),
+      productPrice: Math.floor(Math.random() * 100000 + 1)
     };
     await orderProduct.create(orderProductRelationship);
   }

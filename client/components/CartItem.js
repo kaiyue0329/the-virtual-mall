@@ -10,7 +10,7 @@ export const CartItem = props => {
       quantity: num,
       productId: item.id,
       orderId: props.cart.id,
-      event: 'updateQuantity',
+      event: 'updateQuantity'
     };
     props.update(orderProduct);
   };
@@ -34,7 +34,7 @@ export const CartItem = props => {
     const orderProduct = {
       productId: item.id,
       orderId: props.cart.id,
-      event: 'deleteItem',
+      event: 'deleteItem'
     };
     props.update(orderProduct);
   };
@@ -78,7 +78,7 @@ export const CartItem = props => {
 };
 
 const mapDispatch = dispatch => ({
-  update: cart => dispatch(updateCartThunk(cart)),
+  update: cart => dispatch(updateCartThunk(cart))
 });
 
 export default connect(null, mapDispatch)(CartItem);

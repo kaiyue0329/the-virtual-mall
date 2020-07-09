@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../store';
-import { DesktopNav, MobileNav } from './index';
+import { DesktopNav } from './index';
 import { Container } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn, children, firstName }) => (
@@ -14,18 +14,11 @@ const Navbar = ({ handleClick, isLoggedIn, children, firstName }) => (
     >
       {children}
     </DesktopNav>
-    <MobileNav
-      handleClick={handleClick}
-      isLoggedIn={isLoggedIn}
-      firstName={firstName}
-    >
-      {children}
-    </MobileNav>
   </Container>
 );
 
 Navbar.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 /**
@@ -34,7 +27,7 @@ Navbar.propTypes = {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    firstName: state.user.firstName,
+    firstName: state.user.firstName
   };
 };
 
@@ -42,7 +35,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout());
-    },
+    }
   };
 };
 
@@ -53,5 +46,5 @@ export default connect(mapState, mapDispatch)(Navbar);
  */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };

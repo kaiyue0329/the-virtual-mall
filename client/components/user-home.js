@@ -8,12 +8,12 @@ import { Homepage } from '.';
  * COMPONENT
  */
 export const UserHome = props => {
-  const { email, firstName } = props;
+  const { email, firstName, username } = props;
 
   return (
     <Container>
       <h3>
-        Welcome, {firstName} {email}
+        Welcome, {firstName ? firstName : username} {email}
       </h3>
       <Homepage />
     </Container>
@@ -27,6 +27,7 @@ const mapState = state => {
   return {
     email: state.user.email,
     firstName: state.user.firstName,
+    username: state.user.username
   };
 };
 
@@ -36,5 +37,5 @@ export default connect(mapState)(UserHome);
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string,
+  email: PropTypes.string
 };

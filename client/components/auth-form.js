@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import { auth } from '../store';
 import { Container, Button, Form, Message, Icon } from 'semantic-ui-react';
 
-/**
- * COMPONENT
- */
 const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props;
 
@@ -26,13 +23,12 @@ const AuthForm = props => {
           </Form.Field>
         </Container>
         <Container>
-          <Button type="submit">{displayName}</Button>
+          <Button primary type="submit">
+            {displayName}
+          </Button>
         </Container>
         {error && error.response && <div> {error.response.data} </div>}
       </Form>
-      <Message attached="bottom" info compact>
-        <a href="/auth/google">{displayName} with Google</a>
-      </Message>
       <br />
       {displayName === 'Sign Up' && (
         <Message attached="bottom" warning compact>
@@ -55,7 +51,7 @@ const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
-    error: state.user.error,
+    error: state.user.error
   };
 };
 
@@ -63,7 +59,7 @@ const mapSignup = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
-    error: state.user.error,
+    error: state.user.error
   };
 };
 
@@ -75,7 +71,7 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(auth(email, password, formName));
-    },
+    }
   };
 };
 
@@ -89,5 +85,5 @@ AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.object
 };

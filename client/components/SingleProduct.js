@@ -9,7 +9,7 @@ import {
   Grid,
   Image,
   Segment,
-  Dropdown,
+  Dropdown
 } from 'semantic-ui-react';
 import AddToCart from './AddToCart.js';
 import { updateCartThunk } from '../store/cart';
@@ -18,7 +18,7 @@ export class JustOneProduct extends React.Component {
   constructor() {
     super();
     this.state = {
-      quantity: 1,
+      quantity: 1
     };
     this.backHomeButton = this.backHomeButton.bind(this);
     this.reviewButton = this.reviewButton.bind(this);
@@ -49,7 +49,7 @@ export class JustOneProduct extends React.Component {
         text: i,
         value: i,
         onClick: this.handleChange,
-        key: i,
+        key: i
       });
     }
     return options;
@@ -61,7 +61,7 @@ export class JustOneProduct extends React.Component {
     const orderProducts = {
       quantity: this.state.quantity,
       productId: p.id,
-      event: 'addProduct',
+      event: 'addProduct'
     };
 
     const main = (
@@ -95,11 +95,12 @@ export class JustOneProduct extends React.Component {
                   <br />
                 </div>
               )}
+              Quantity:{' '}
               <Dropdown
-                text={`Quantity: ${this.state.quantity}`}
+                text={this.state.quantity}
                 selection
-                inline
                 options={this.createDropdown()}
+                style={{ marginRight: '8px' }}
               />
               <AddToCart orderProducts={orderProducts} />
             </Grid.Column>
@@ -145,13 +146,13 @@ export class JustOneProduct extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  oneProduct: state.oneProduct,
+  oneProduct: state.oneProduct
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchOneProduct: id => dispatch(getOneProduct(id)),
-    update: cart => dispatch(updateCartThunk(cart)),
+    update: cart => dispatch(updateCartThunk(cart))
   };
 };
 

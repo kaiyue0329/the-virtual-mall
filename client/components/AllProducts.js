@@ -10,7 +10,7 @@ class DisconnectedAllProducts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: 1
     };
   }
 
@@ -65,7 +65,6 @@ class DisconnectedAllProducts extends React.Component {
           <Pagination
             activePage={page}
             boundaryRange={0}
-            defaultActivePage={1}
             ellipsisItem={null}
             siblingRange={5}
             onPageChange={this.handlePaginationChange}
@@ -80,14 +79,14 @@ class DisconnectedAllProducts extends React.Component {
 const mapState = state => {
   return {
     products: state.products.items,
-    pages: state.products.pages,
+    pages: state.products.pages
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     getProducts: (page, category, sortBy, searchQuery) =>
-      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery)),
+      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery))
   };
 };
 

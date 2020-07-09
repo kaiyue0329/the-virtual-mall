@@ -1,11 +1,12 @@
 import {
+  Image,
   Responsive,
   Menu,
   Segment,
-  Container,
   Button,
-  Visibility,
+  Visibility
 } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -15,14 +16,14 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
 };
 
-export default class DesktopNav extends Component {
+class DesktopNav extends Component {
   state = {};
 
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
 
   render() {
-    const { handleClick, isLoggedIn } = this.props;
+    const { handleClick, isLoggedIn, user } = this.props;
     const { fixed } = this.state;
 
     return (
@@ -43,44 +44,53 @@ export default class DesktopNav extends Component {
               secondary={!fixed}
               size="large"
             >
-              <Container>
-                <Menu.Item as={NavLink} exact to="/home">
-                  Home
+              <Menu.Item as={NavLink} exact to="/home">
+                Home
+              </Menu.Item>
+              <Menu.Item as={NavLink} exact to="/products">
+                Products
+              </Menu.Item>
+              <Menu.Item as={NavLink} exact to="/cart/view">
+                Cart
+              </Menu.Item>
+              {isLoggedIn ? (
+                <Menu.Item as={NavLink} exact to="/orders">
+                  Orders
                 </Menu.Item>
-                <Menu.Item as={NavLink} exact to="/products">
-                  Products
+              ) : (
+                ''
+              )}
+              {isLoggedIn ? (
+                <Menu.Item position="right">
+                  <Image src={user.profilePicture} size="mini" circular />{' '}
+                  {user.firstName ? user.firstName : user.username}
+                  <Button
+                    primary
+                    as={NavLink}
+                    exact
+                    to="#"
+                    onClick={handleClick}
+                  >
+                    Log Out
+                  </Button>
                 </Menu.Item>
-                <Menu.Item as={NavLink} exact to="/cart/view">
-                  Cart
+              ) : (
+                <Menu.Item position="right">
+                  <Button primary as={NavLink} exact to="/account">
+                    Log in
+                  </Button>
+                  <Button
+                    color="green"
+                    as={NavLink}
+                    exact
+                    to="/signup"
+                    primary={fixed}
+                    style={{ marginLeft: '0.5em' }}
+                  >
+                    Sign Up
+                  </Button>
                 </Menu.Item>
-                {isLoggedIn ? (
-                  <Menu.Menu position="right">
-                    <Menu.Item as={NavLink} exact to="/orders">
-                      Orders
-                    </Menu.Item>
-                    <Menu.Item position="right">
-                      <Button as={NavLink} exact to="#" onClick={handleClick}>
-                        Log Out
-                      </Button>
-                    </Menu.Item>
-                  </Menu.Menu>
-                ) : (
-                  <Menu.Item position="right">
-                    <Button as={NavLink} exact to="/account">
-                      Log in
-                    </Button>
-                    <Button
-                      as={NavLink}
-                      exact
-                      to="/signup"
-                      primary={fixed}
-                      style={{ marginLeft: '0.5em' }}
-                    >
-                      Sign Up
-                    </Button>
-                  </Menu.Item>
-                )}
-              </Container>
+              )}
             </Menu>
           </Segment>
         </Visibility>
@@ -88,3 +98,14 @@ export default class DesktopNav extends Component {
     );
   }
 }
+
+const mapState = state => {
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    isLoggedIn: !!state.user.id,
+    user: state.user
+  };
+};
+
+export default connect(mapState)(DesktopNav);
