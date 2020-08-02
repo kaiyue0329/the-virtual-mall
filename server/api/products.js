@@ -21,15 +21,15 @@ router.get('/', async (req, res, next) => {
     if (CATEGORY_FILTER) {
       var categoryQuery = {
         name: {
-          [Sequelize.Op.in]: [CATEGORY_FILTER],
-        },
+          [Sequelize.Op.in]: [CATEGORY_FILTER]
+        }
       };
     }
     if (SEARCH_FILTER) {
       var searchQuery = {
         name: {
-          [Sequelize.Op.iLike]: `%${SEARCH_FILTER}%`,
-        },
+          [Sequelize.Op.iLike]: `%${SEARCH_FILTER}%`
+        }
       };
     }
     return { searchQuery, categoryQuery };
@@ -42,10 +42,10 @@ router.get('/', async (req, res, next) => {
       include: [
         {
           model: Category,
-          where: query.categoryQuery,
-        },
+          where: query.categoryQuery
+        }
       ],
-      where: query.searchQuery,
+      where: query.searchQuery
     });
     const pages = Math.ceil(data.count / PAGE_SIZE);
 
@@ -55,26 +55,15 @@ router.get('/', async (req, res, next) => {
         { model: Reviews },
         {
           model: Category,
-          where: query.categoryQuery,
-        },
+          where: query.categoryQuery
+        }
       ],
       where: query.searchQuery,
       order: [SORT_BY],
       limit: PAGE_SIZE,
-      offset: OFFSET_VALUE,
+      offset: OFFSET_VALUE
     });
     res.json({ results, pages });
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/all', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      include: [{ model: Reviews }, { model: Category }],
-    });
-    res.json(products);
   } catch (error) {
     next(error);
   }
@@ -83,7 +72,7 @@ router.get('/all', async (req, res, next) => {
 router.get('/topRated', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [{ model: Reviews }, { model: Category }],
+      include: [{ model: Reviews }, { model: Category }]
     });
     console.log('top rate', products[0].dataValues);
     let recommendedProducts = [];
@@ -108,7 +97,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const product = await Product.findByPk(id, {
-      include: [{ model: Reviews }, { model: Category }],
+      include: [{ model: Reviews }, { model: Category }]
     });
     res.json(product);
   } catch (error) {

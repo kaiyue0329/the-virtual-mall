@@ -10,7 +10,7 @@ const ProductCard = props => {
   const orderProducts = {
     quantity: 1,
     productId: product.id,
-    event: 'addProduct',
+    event: 'addProduct'
   };
 
   const findReviewAvg = () => {
@@ -37,11 +37,7 @@ const ProductCard = props => {
           <Card.Header>{product.name}</Card.Header>$
           {(product.price / 100).toFixed(2)}
           <br />
-          {product.reviews.length !== 0 ? (
-            <Stars starsInt={findReviewAvg()} />
-          ) : (
-            ''
-          )}
+          {product.reviews.length !== 0 && <Stars starsInt={findReviewAvg()} />}
         </Link>
         <br />
         <AddToCart orderProducts={orderProducts} />

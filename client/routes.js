@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Login,
-  Signup,
   CartList,
+  Chat,
+  Homepage,
   OrdersList,
   OrderConfirmation,
-  Homepage,
+  Login,
+  Signup
 } from './components';
 import SingleProduct from './components/SingleProduct';
 import { me, fetchProductsThunk, fetchCategoriesThunk } from './store';
@@ -25,29 +26,39 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, username } = this.props;
 
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route exact path="/products/:id" component={SingleProduct} />
         <Route exact path="/cart/view" component={CartList} />
-        <Route exact path="/products" component={AllProducts} />
         <Route exact path="/home" component={Homepage} />
+        <Route path="/login" component={Login} />
+        <Route exact path="/products/:id" component={SingleProduct} />
+        <Route exact path="/products" component={AllProducts} />
+        <Route path="/signup" component={Signup} />
         <Route exact path="/" component={Homepage} />
+        <Route
+          path="/support"
+          component={() => (
+            <Chat username={username} loginStatus={isLoggedIn} />
+          )}
+        />
 
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route exact path="/checkout" component={CheckoutForm} />
-            <Route path="/orders" component={OrdersList} />
             <Route
               path="/checkout/confirmation/:cartId"
               component={OrderConfirmation}
             />
+            <Route path="/orders" component={OrdersList} />
             <Route path="/review/:id" component={ReviewForm} />
+            <Route
+              path="/support"
+              component={() => <Chat username={username} status={isLoggedIn} />}
+            />
           </Switch>
         )}
         {/* Displays our login component as a fallback */}
@@ -62,6 +73,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
+    username: state.user.username
   };
 };
 
@@ -71,7 +83,7 @@ const mapDispatch = dispatch => {
       dispatch(me());
       dispatch(fetchProductsThunk());
       dispatch(fetchCategoriesThunk());
-    },
+    }
   };
 };
 
@@ -84,5 +96,5 @@ export default withRouter(connect(mapState, mapDispatch)(Routes));
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };

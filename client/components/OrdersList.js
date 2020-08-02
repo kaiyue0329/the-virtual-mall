@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getOrders } from '../store/orders';
 import { OrderItem } from '../components';
-import { Container } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 
 class OrdersList extends Component {
   componentDidMount() {
@@ -13,8 +13,8 @@ class OrdersList extends Component {
     const orders = this.props.orders;
     console.log(orders);
     return (
-      <Container>
-        <h1>Your Orders:</h1>
+      <Container style={{ marginTop: '1rem' }}>
+        <Header as="h1">Your Orders:</Header>
         <h2>You have {orders.length} orders</h2>
         {orders &&
           Array.isArray(orders) &&
@@ -25,11 +25,11 @@ class OrdersList extends Component {
 }
 
 const mapState = state => ({
-  orders: state.orders,
+  orders: state.orders
 });
 
 const mapDispatch = dispatch => ({
-  getOrders: () => dispatch(getOrders()),
+  getOrders: () => dispatch(getOrders())
 });
 
 export default connect(mapState, mapDispatch)(OrdersList);

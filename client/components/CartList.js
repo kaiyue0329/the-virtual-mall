@@ -2,7 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getCart } from '../store/cart';
 import { CartItem } from '../components';
-import { Item, Container, Message, Button } from 'semantic-ui-react';
+import {
+  Item,
+  Container,
+  Message,
+  Button,
+  Header,
+  Segment
+} from 'semantic-ui-react';
 
 const _ = require('lodash/lang');
 
@@ -10,7 +17,7 @@ class CartList extends React.Component {
   constructor() {
     super();
     this.state = {
-      canCheckout: true,
+      canCheckout: true
     };
     this.notEnoughStock = this.notEnoughStock.bind(this);
     this.calculateSubtotal = this.calculateSubtotal.bind(this);
@@ -25,7 +32,7 @@ class CartList extends React.Component {
     const checkout = this.notEnoughStock();
     if (this.state.canCheckout !== checkout) {
       this.setState({
-        canCheckout: checkout,
+        canCheckout: checkout
       });
     }
   }
@@ -58,8 +65,10 @@ class CartList extends React.Component {
   render() {
     const products = this.props.cart.products;
     return (
-      <Container>
-        <h1>Your Cart {products && products.length === 0 ? 'Is Empty' : ''}</h1>
+      <Container style={{ marginTop: '1rem' }}>
+        <Header as="h1">
+          Your Cart {products && products.length === 0 ? 'Is Empty' : ''}
+        </Header>
         {!this.state.canCheckout && (
           <Message negative>
             <Message.Header>
@@ -92,11 +101,11 @@ class CartList extends React.Component {
 }
 
 const mapState = state => ({
-  cart: state.cart,
+  cart: state.cart
 });
 
 const mapDispatch = dispatch => ({
-  getCart: () => dispatch(getCart()),
+  getCart: () => dispatch(getCart())
 });
 
 export default connect(mapState, mapDispatch)(CartList);

@@ -25,3 +25,6 @@ export { default as OrderSummary } from './OrderSummary';
 export { default as InvalidCartMessage } from './InvalidCartMessage';
 export { default as ReviewForm } from './ReviewForm';
 export { default as Homepage } from './Homepage';
+export { default as Chat } from './Chat';
+export { default as CreateChat } from './CreateChat';
+export { default as AllReps } from './AllReps';

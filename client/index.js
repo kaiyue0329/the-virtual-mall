@@ -5,6 +5,10 @@ import { Router } from 'react-router-dom';
 import history from './history';
 import store from './store';
 import App from './app';
+import * as firebase from 'firebase/app';
+import firebaseConfig from '../firebase.config';
+
+firebase.initializeApp(firebaseConfig);
 
 // establishes socket connection
 import './socket';

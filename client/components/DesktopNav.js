@@ -53,18 +53,20 @@ class DesktopNav extends Component {
               <Menu.Item as={NavLink} exact to="/cart/view">
                 Cart
               </Menu.Item>
-              {isLoggedIn ? (
+              {isLoggedIn && (
                 <Menu.Item as={NavLink} exact to="/orders">
                   Orders
                 </Menu.Item>
-              ) : (
-                ''
               )}
+              <Menu.Item as={NavLink} exact to="/support">
+                Contact Us
+              </Menu.Item>
               {isLoggedIn ? (
                 <Menu.Item position="right">
                   <Image src={user.profilePicture} size="mini" circular />{' '}
                   {user.firstName ? user.firstName : user.username}
                   <Button
+                    style={{ marginLeft: '25px' }}
                     primary
                     as={NavLink}
                     exact

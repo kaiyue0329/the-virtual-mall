@@ -11,7 +11,7 @@ class DisconnectedAllProductsHeader extends React.Component {
       page: props.page,
       category: null,
       sortBy: null,
-      searchQuery: '',
+      searchQuery: ''
     };
   }
 
@@ -35,7 +35,7 @@ class DisconnectedAllProductsHeader extends React.Component {
       let obj = {
         key: category + i,
         value: category,
-        text: category,
+        text: category
       };
       options.push(obj);
     });
@@ -73,8 +73,8 @@ class DisconnectedAllProductsHeader extends React.Component {
     const { sortBy, category, searchQuery } = this.state;
 
     return (
-      <Container>
-        <Header as="h2">The Virtual Mall</Header>
+      <Container textAlign="center" style={{ marginTop: '1rem' }}>
+        <Header as="h1">The Virtual Mall</Header>
         <Container textAlign="center" style={{ marginBottom: '2rem' }} />
         <Form
           style={{ display: 'inline', marginRight: '25px' }}
@@ -96,7 +96,7 @@ class DisconnectedAllProductsHeader extends React.Component {
           options={[
             { key: 1, text: 'Name', value: 'name' },
             { key: 2, text: 'Price', value: 'price' },
-            { key: 3, text: 'Rating', value: 'rating' },
+            { key: 3, text: 'Rating', value: 'rating' }
           ]}
           value={sortBy}
           onChange={(e, { value }) => this.sort(value)}
@@ -119,7 +119,7 @@ class DisconnectedAllProductsHeader extends React.Component {
 const mapState = state => {
   return {
     products: state.products,
-    categories: state.categories,
+    categories: state.categories
   };
 };
 
@@ -127,7 +127,7 @@ const mapDispatch = dispatch => {
   return {
     getCategories: () => dispatch(fetchCategoriesThunk()),
     getProducts: (page, category, sortBy, searchQuery) =>
-      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery)),
+      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery))
   };
 };
 

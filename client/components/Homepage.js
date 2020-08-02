@@ -6,18 +6,15 @@ import {
   Header,
   Segment,
   Dimmer,
-  Loader,
+  Loader
 } from 'semantic-ui-react';
-import ProductsCard from './ProductCard';
 import { fetchProductsThunk } from '../store';
 import { NavLink as Link } from 'react-router-dom';
 
 class DisconnectedHomepage extends React.Component {
-  componentDidMount() {
-    // this.props.getProducts()
-  }
   render() {
-    const { products, recommendedProducts, categories } = this.props;
+    // const { products, recommendedProducts, categories } = this.props;
+    const { products, categories } = this.props;
 
     if (!products || products.length === 0) {
       return (
@@ -54,14 +51,7 @@ class DisconnectedHomepage extends React.Component {
               </Card>
             ))}
           </Card.Group>
-          <Segment inverted>
-            <Header as="h4">Recommended Products</Header>
-          </Segment>
-          <Card.Group centered stackable>
-            {recommendedProducts.map(product => (
-              <ProductsCard product={product} key={product.id} />
-            ))}
-          </Card.Group>
+          <Segment inverted />
         </Container>
       </Container>
     );
@@ -69,32 +59,16 @@ class DisconnectedHomepage extends React.Component {
 }
 
 const mapState = state => {
-  let recommendedProducts = [];
-
-  if (state.products.items) {
-    state.products.items.map(product => {
-      let total = 0;
-      product.reviews.map(review => {
-        total += review.star;
-      });
-      const avg = Math.floor(total / product.reviews.length);
-      if (avg >= 3 && recommendedProducts.length < 3) {
-        recommendedProducts.push(product);
-      }
-    });
-  }
-
   return {
     products: state.products.items,
-    recommendedProducts,
-    categories: state.categories,
+    categories: state.categories
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     applyFilter: (page, category, sortBy, searchQuery) =>
-      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery)),
+      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery))
   };
 };
 

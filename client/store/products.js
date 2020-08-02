@@ -2,17 +2,10 @@ import axios from 'axios';
 import history from '../history';
 
 export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SET_RECOMMENDED_PRODUCTS = 'SET_RECOMMENDED_PRODUCTS';
 
 export const setProducts = (products, pages) => {
   return { type: SET_PRODUCTS, products, pages };
-};
-
-export const getAllProductsThunk = () => {
-  return async dispatch => {
-    const response = await axios.get(`/api/products/all`);
-    const products = response.data;
-    dispatch(setProducts(products, 1));
-  };
 };
 
 export const fetchProductsThunk = (page, category, sortBy, searchQuery) => {
