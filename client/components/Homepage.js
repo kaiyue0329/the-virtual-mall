@@ -35,7 +35,7 @@ class DisconnectedHomepage extends React.Component {
           <Card.Group centered stackable>
             {categories.map(category => (
               <Card
-                className="centered"
+                centered
                 raised
                 key={category.id}
                 style={{ margin: '1rem' }}

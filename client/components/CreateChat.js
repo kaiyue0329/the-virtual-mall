@@ -3,14 +3,13 @@ import { Button } from 'semantic-ui-react';
 
 const CreateChat = ({ createChat, rep, chatUsername }) => {
   const createChatWithRep = repNumber => {
-    const recepient = repNumber.replace(/\s+/g, '');
-    createChat(recepient, `${recepient}_${chatUsername}`);
+    createChat(repNumber, `${repNumber}_${chatUsername}`);
   };
 
   return (
     <Button
       primary
-      style={{ marginTop: '1rem' }}
+      style={{ marginTop: '0.5rem' }}
       onClick={() => createChatWithRep(rep)}
     >
       Chat

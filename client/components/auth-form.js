@@ -11,7 +11,7 @@ const AuthForm = props => {
     <Container>
       <Form onSubmit={handleSubmit} name={name}>
         <Container>
-          <Form.Field required>
+          <Form.Field required icon="user" iconPosition="left">
             <label htmlFor="email">Email</label>
             <input name="email" type="text" />
           </Form.Field>

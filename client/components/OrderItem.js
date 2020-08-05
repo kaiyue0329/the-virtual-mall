@@ -3,8 +3,7 @@ import { OrderProduct } from '../components';
 import { cancelOrderThunk } from '../store/orders';
 import { connect } from 'react-redux';
 import { Item, Segment, Grid, Button } from 'semantic-ui-react';
-
-var moment = require('moment');
+import moment from 'moment';
 
 export const OrderItem = props => {
   const order = props.order;
@@ -53,7 +52,7 @@ export const OrderItem = props => {
 };
 
 const mapDispatch = dispatch => ({
-  cancelOrder: orderId => dispatch(cancelOrderThunk(orderId)),
+  cancelOrder: orderId => dispatch(cancelOrderThunk(orderId))
 });
 
 export default connect(null, mapDispatch)(OrderItem);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Dropdown, Form, Header } from 'semantic-ui-react';
+import { Container, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { fetchProductsThunk, fetchCategoriesThunk } from '../store';
 
@@ -73,9 +73,11 @@ class DisconnectedAllProductsHeader extends React.Component {
     const { sortBy, category, searchQuery } = this.state;
 
     return (
-      <Container textAlign="center" style={{ marginTop: '1rem' }}>
+      <Container
+        textAlign="center"
+        style={{ marginTop: '1rem', marginBottom: '2rem' }}
+      >
         <Header as="h1">The Virtual Mall</Header>
-        <Container textAlign="center" style={{ marginBottom: '2rem' }} />
         <Form
           style={{ display: 'inline', marginRight: '25px' }}
           onSubmit={this.handleSubmit}

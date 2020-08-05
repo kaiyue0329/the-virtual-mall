@@ -1,15 +1,21 @@
 import React from 'react';
 import uuid from 'uuid';
-import { getFromDatabase, saveToDatabase } from '../database';
+import {
+  getFromDatabase,
+  saveToDatabase,
+  removeFromDatabase
+} from '../database';
 
 const useChats = chatUsername => {
   const [currentChat, setCurrentChat] = React.useState(null);
   const [myActiveChats, setMyActiveChats] = React.useState([]);
+  const [myChatsInfo, setMyChatsInfo] = React.useState([]);
   const [currentChatMessages, setCurrentChatMessages] = React.useState([]);
 
   React.useEffect(() => {
     getFromDatabase(`/${chatUsername}/chats`, res => {
       setMyActiveChats(Object.keys(res).reverse());
+      setMyChatsInfo(Object.entries(res).reverse());
     });
 
     setCurrentChatMessages([]);
@@ -27,30 +33,57 @@ const useChats = chatUsername => {
     });
   };
 
-  const getCurrentDate = () => {
-    let time = new Date();
-    time = new Date(time.getTime() - time.getTimezoneOffset() * 60000);
-    return time.toISOString().substring(0, 11).replace(/[T]/g, '');
+  const getCurrentTime = () => {
+    return new Date().toISOString().substring(0, 19);
   };
 
   const createChat = (recepient, chatName) => {
-    const fullChatName = `${getCurrentDate()}_${chatName}`;
-    if (!myActiveChats.includes(fullChatName)) {
-      saveToDatabase(`/${recepient}/chats/${fullChatName}`, fullChatName);
-      saveToDatabase(`/${chatUsername}/chats/${fullChatName}`, fullChatName);
-      saveToDatabase(`/chats/${fullChatName}/messages`, {});
+    const shortChatName = `${getCurrentTime().substring(0, 10)}_${chatName}`;
+    const fullChatName = `${getCurrentTime()}_${chatName}`;
+    if (!myActiveChats.includes(shortChatName)) {
+      saveToDatabase(`/${recepient}/chats/${shortChatName}`, fullChatName);
+      saveToDatabase(`/${chatUsername}/chats/${shortChatName}`, fullChatName);
+      const messageId = uuid();
+      saveToDatabase(`/chats/${shortChatName}/messages/${messageId}`, {
+        body: `Hi, I am ${recepient} from the Virtual Mall. Nice to meet you! Whom do I have the pleasure of chatting with today?`,
+        sender: recepient,
+        created: new Date().toISOString()
+      });
     }
-    setCurrentChat(fullChatName);
+    setCurrentChat(shortChatName);
+  };
+
+  const removeChat = shortChatName => {
+    // eslint-disable-next-line no-alert
+    const selection = confirm('Are you sure you want to delete this chat?');
+
+    if (selection) {
+      myActiveChats.pop(shortChatName);
+      if (myActiveChats.length === 0) {
+        setMyActiveChats([]);
+      }
+      if (shortChatName === currentChat) {
+        setCurrentChat(null);
+      }
+
+      const info = shortChatName.split('_');
+      const rep = info[1];
+      const user = info[2];
+      removeFromDatabase(`${user}/chats/${shortChatName}`);
+      removeFromDatabase(`/chats/${shortChatName}`);
+      removeFromDatabase(`${rep}/chats/${shortChatName}`);
+    }
   };
 
   return {
     sendMessage,
     createChat,
+    removeChat,
     currentChat,
     myActiveChats,
+    myChatsInfo,
     currentChatMessages,
-    setCurrentChat,
-    getCurrentDate
+    setCurrentChat
   };
 };
 

@@ -9,6 +9,10 @@ export const getFromDatabase = (dbString, callback) => {
   });
 };
 
+export const removeFromDatabase = itemLocation => {
+  database().ref(itemLocation).remove();
+};
+
 export const saveToDatabase = (dbString, val) => {
   database().ref(dbString).set(val);
 };

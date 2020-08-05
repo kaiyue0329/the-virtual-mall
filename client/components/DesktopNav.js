@@ -33,11 +33,7 @@ class DesktopNav extends Component {
           onBottomPassed={this.showFixedMenu}
           onBottomPassedReverse={this.hideFixedMenu}
         >
-          <Segment
-            textAlign="center"
-            style={{ minHeight: 100, padding: '1em 0em' }}
-            vertical
-          >
+          <Segment textAlign="center" vertical>
             <Menu
               fixed={fixed ? 'top' : null}
               pointing={!fixed}
@@ -59,7 +55,7 @@ class DesktopNav extends Component {
                 </Menu.Item>
               )}
               <Menu.Item as={NavLink} exact to="/support">
-                Contact Us
+                Live Chat
               </Menu.Item>
               {isLoggedIn ? (
                 <Menu.Item position="right">
@@ -68,29 +64,37 @@ class DesktopNav extends Component {
                   <Button
                     style={{ marginLeft: '25px' }}
                     primary
+                    content="Log Out"
+                    icon="log out"
+                    labelPosition="left"
                     as={NavLink}
                     exact
                     to="#"
                     onClick={handleClick}
-                  >
-                    Log Out
-                  </Button>
+                  />
                 </Menu.Item>
               ) : (
                 <Menu.Item position="right">
-                  <Button primary as={NavLink} exact to="/account">
-                    Log in
-                  </Button>
                   <Button
-                    color="green"
+                    primary
+                    content="Log In"
+                    icon="user"
+                    labelPosition="left"
+                    as={NavLink}
+                    exact
+                    to="/account"
+                  />
+                  <Button
+                    color="teal"
+                    content="Sign Up"
+                    icon="signup"
+                    labelPosition="left"
                     as={NavLink}
                     exact
                     to="/signup"
                     primary={fixed}
                     style={{ marginLeft: '0.5em' }}
-                  >
-                    Sign Up
-                  </Button>
+                  />
                 </Menu.Item>
               )}
             </Menu>

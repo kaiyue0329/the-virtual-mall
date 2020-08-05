@@ -28,3 +28,4 @@ export { default as Homepage } from './Homepage';
 export { default as Chat } from './Chat';
 export { default as CreateChat } from './CreateChat';
 export { default as AllReps } from './AllReps';
+export { default as ChatInput } from './ChatInput';

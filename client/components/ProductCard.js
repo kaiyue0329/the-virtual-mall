@@ -23,12 +23,7 @@ const ProductCard = props => {
   };
 
   return (
-    <Card
-      className="centered"
-      raised
-      key={product.id}
-      style={{ margin: '1rem' }}
-    >
+    <Card centered raised key={product.id} style={{ margin: '1rem' }}>
       <Link to={`/products/${product.id}`} key={product.id}>
         <Image centered size="medium" src={product.picture} />
       </Link>
