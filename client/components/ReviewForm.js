@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateReviewThunk } from '../store/review';
@@ -10,7 +10,7 @@ export class ReviewForm extends React.Component {
 
     this.state = {
       star: 1,
-      review: '',
+      review: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,13 +19,12 @@ export class ReviewForm extends React.Component {
   }
 
   handleRate(event, data) {
-    console.log(data.rating);
     this.setState({ star: data.rating });
   }
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   }
 
@@ -74,12 +73,12 @@ export class ReviewForm extends React.Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  review: state.review,
+  review: state.review
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    review: (id, thereview) => dispatch(updateReviewThunk(id, thereview)),
+    review: (id, thereview) => dispatch(updateReviewThunk(id, thereview))
   };
 };
 

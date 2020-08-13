@@ -10,9 +10,6 @@ import firebaseConfig from '../firebase.config';
 
 firebase.initializeApp(firebaseConfig);
 
-// establishes socket connection
-import './socket';
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

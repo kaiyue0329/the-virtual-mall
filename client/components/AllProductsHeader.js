@@ -1,31 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Container, Dropdown, Form, Header, Segment } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
-import { fetchProductsThunk, fetchCategoriesThunk } from '../store';
+import { Container, Dropdown, Form, Header } from 'semantic-ui-react';
 
-class DisconnectedAllProductsHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: props.page,
-      category: null,
-      sortBy: null,
-      searchQuery: ''
-    };
-  }
-
-  componentDidMount() {
-    this.props.getProducts(
-      this.state.page,
-      this.state.category,
-      this.state.sortBy,
-      this.state.searchQuery
-    );
-  }
-
-  setCategoriesDropdown = () => {
-    const categories = this.props.categories.map(category => {
+const AllProductsHeader = ({
+  sortBy,
+  selectedCategory,
+  searchQuery,
+  handleInputChange,
+  handleFormSubmit,
+  sortProducts,
+  updateFilter,
+  productCategories
+}) => {
+  const getCategoriesDropdown = () => {
+    const categories = productCategories.map(category => {
       return category.name;
     });
     let options = [];
@@ -42,97 +29,49 @@ class DisconnectedAllProductsHeader extends React.Component {
     return options;
   };
 
-  handleChange = event => {
-    this.setState({ searchQuery: event.target.value });
-  };
-
-  handleSubmit = () => {
-    this.callThunk();
-  };
-
-  sort = async sortBy => {
-    await this.setState({ sortBy });
-    this.callThunk();
-  };
-
-  updateFilter = async category => {
-    await this.setState({ category });
-    this.callThunk();
-  };
-
-  callThunk = () => {
-    this.props.getProducts(
-      this.state.page,
-      this.state.category,
-      this.state.sortBy,
-      this.state.searchQuery
-    );
-  };
-
-  render() {
-    const { sortBy, category, searchQuery } = this.state;
-
-    return (
-      <Container
-        textAlign="center"
-        style={{ marginTop: '1rem', marginBottom: '2rem' }}
+  return (
+    <Container
+      textAlign="center"
+      style={{ marginTop: '1rem', marginBottom: '2rem' }}
+    >
+      <Header as="h1">The Virtual Mall</Header>
+      <Form
+        style={{ display: 'inline', marginRight: '25px' }}
+        onSubmit={handleFormSubmit}
       >
-        <Header as="h1">The Virtual Mall</Header>
-        <Form
-          style={{ display: 'inline', marginRight: '25px' }}
-          onSubmit={this.handleSubmit}
-        >
-          <Form.Input
-            icon="search"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={this.handleChange}
-          />
-        </Form>
-        <Dropdown
-          style={{ margin: '1rem' }}
-          placeholder="Sort By"
-          selectOnBlur={false}
-          selection
-          clearable
-          options={[
-            { key: 1, text: 'Name', value: 'name' },
-            { key: 2, text: 'Price', value: 'price' },
-            { key: 3, text: 'Rating', value: 'rating' }
-          ]}
-          value={sortBy}
-          onChange={(e, { value }) => this.sort(value)}
+        <Form.Input
+          icon="search"
+          placeholder="Search"
+          value={searchQuery}
+          onChange={handleInputChange}
         />
-        <Dropdown
-          style={{ margin: '1rem' }}
-          placeholder="Filter"
-          selectOnBlur={false}
-          selection
-          clearable
-          options={this.setCategoriesDropdown()}
-          value={category}
-          onChange={event => this.updateFilter(event.target.innerText)}
-        />
-      </Container>
-    );
-  }
-}
-
-const mapState = state => {
-  return {
-    products: state.products,
-    categories: state.categories
-  };
+      </Form>
+      <Dropdown
+        style={{ margin: '1rem' }}
+        placeholder="Sort By"
+        selectOnBlur={false}
+        selection
+        clearable
+        options={[
+          { key: 1, text: 'Avg. Rating', value: 'avgRating' },
+          { key: 2, text: 'Price', value: 'price' },
+          { key: 3, text: 'Name', value: 'name' }
+        ]}
+        value={sortBy}
+        onChange={(e, { value }) => sortProducts(value)}
+      />
+      <Dropdown
+        style={{ margin: '1rem' }}
+        placeholder="Filter"
+        selectOnBlur={false}
+        selection
+        clearable
+        options={getCategoriesDropdown()}
+        value={selectedCategory}
+        onChange={event => updateFilter(event.target.innerText)}
+      />
+    </Container>
+  );
 };
 
-const mapDispatch = dispatch => {
-  return {
-    getCategories: () => dispatch(fetchCategoriesThunk()),
-    getProducts: (page, category, sortBy, searchQuery) =>
-      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery))
-  };
-};
-
-export default withRouter(
-  connect(mapState, mapDispatch)(DisconnectedAllProductsHeader)
-);
+export default AllProductsHeader;

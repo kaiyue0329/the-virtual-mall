@@ -36,3 +36,14 @@ form div {
   width: 100em;
   height: 25em;
 }
+
+.ui.card .image > .ribbon.label,
+.ui.image > .ribbon.label {
+  position: absolute;
+  top: 10px;
+  left: -12px;
+}
+
+.ui.menu .item {
+  cursor: pointer;
+}

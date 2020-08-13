@@ -46,7 +46,7 @@ const createCategory = async () => {
     const category = {
       name: faker.commerce.department()
     };
-    if (!categories.includes(category.name) && categories.length <= 50) {
+    if (!categories.includes(category.name) && categories.length <= 7) {
       await Category.create(category);
       categories.push(category.name);
     }
@@ -106,6 +106,30 @@ const createReview = async () => {
   }
 };
 
+const calcAvgRating = async () => {
+  for (let i = 1; i <= 500; i++) {
+    const productReviews = await Review.findAll({
+      where: {
+        productId: i
+      }
+    });
+
+    if (productReviews.length > 0) {
+      let total = 0;
+      productReviews.map(review => {
+        total += review.star;
+      });
+      const avgRating = total / productReviews.length;
+      const productToUpdate = await Product.findOne({
+        where: { id: i }
+      });
+      await productToUpdate.update({
+        avgRating: avgRating
+      });
+    }
+  }
+};
+
 const createOrder = async () => {
   const statusOptions = [
     'inCart',
@@ -145,6 +169,7 @@ async function seed() {
   await createShippingAddress();
   await createUser();
   await createReview();
+  await calcAvgRating();
   await setCategoryOnProduct();
   await createOrder();
   await createOrderProduct();

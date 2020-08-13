@@ -11,7 +11,7 @@ const AuthForm = props => {
     <Container>
       <Form onSubmit={handleSubmit} name={name}>
         <Container>
-          <Form.Field required icon="user" iconPosition="left">
+          <Form.Field required icon="user">
             <label htmlFor="email">Email</label>
             <input name="email" type="text" />
           </Form.Field>
@@ -27,7 +27,9 @@ const AuthForm = props => {
             {displayName}
           </Button>
         </Container>
-        {error && error.response && <div> {error.response.data} </div>}
+        {error && error.response && (
+          <div style={{ color: 'red' }}> {error.response.data} </div>
+        )}
       </Form>
       <br />
       {displayName === 'Sign Up' && (

@@ -20,7 +20,7 @@ export class JustOneProduct extends React.Component {
     this.state = {
       quantity: 1
     };
-    this.backHomeButton = this.backHomeButton.bind(this);
+    this.backtoProductPage = this.backtoProductPage.bind(this);
     this.reviewButton = this.reviewButton.bind(this);
   }
 
@@ -33,9 +33,9 @@ export class JustOneProduct extends React.Component {
     this.props.history.push(`/review/${event.target.value}`);
   }
 
-  backHomeButton(event) {
+  backtoProductPage(event) {
     event.preventDefault();
-    this.props.history.push('/');
+    this.props.history.push('/products');
   }
 
   handleChange = (e, { value }) => {
@@ -97,7 +97,7 @@ export class JustOneProduct extends React.Component {
               )}
               Quantity:{' '}
               <Dropdown
-                text={this.state.quantity}
+                text={`${this.state.quantity}`}
                 selection
                 options={this.createDropdown()}
                 style={{ marginRight: '8px' }}
@@ -132,12 +132,8 @@ export class JustOneProduct extends React.Component {
         ) : (
           <div>No review available for this product.</div>
         )}
-        <Button type="Submit" onClick={this.backHomeButton}>
-          Back to Home
-        </Button>
-
-        <Button type="Submit" onClick={this.reviewButton} value={p.id}>
-          Add a Review
+        <Button type="Submit" onClick={this.backtoProductPage}>
+          Back to Product Page
         </Button>
       </Container>
     );

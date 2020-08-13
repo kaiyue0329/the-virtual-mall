@@ -5,7 +5,7 @@ const uuid = require('uuid/v4');
 
 const { User, ShippingAddress } = require('../db/models');
 
-router.get('/', async (req, res, next) => {
+router.get('/', (req, res, next) => {
   try {
     const sessionId = req.sessionID;
     if (sessionId && !req.user) {
@@ -22,13 +22,12 @@ router.get('/', async (req, res, next) => {
   try {
     if (req.user && req.user.id) {
       const address = await ShippingAddress.findOrCreate({
-        where: { id: req.user.shippingAddressId },
+        where: { id: req.user.shippingAddressId }
       });
       const user = await User.findByPk(req.user.id);
       await user.update({
-        shippingAddressId: address[0].dataValues.id,
+        shippingAddressId: address[0].dataValues.id
       });
-      console.log(address, user);
       res.json(address);
     } else {
       res.json(null);
@@ -41,7 +40,6 @@ router.get('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   try {
     if (req.user && req.user.id) {
-      console.log(req.body);
       const uid = req.user.id;
       const id = req.user.shippingAddressId;
       const firstName = req.body.firstName;
@@ -69,11 +67,9 @@ router.post('/stripe', async (req, res) => {
   let status;
   try {
     const { product, token } = req.body;
-    console.log(product);
-
     const customer = await stripe.customers.create({
       email: token.email,
-      source: token.id,
+      source: token.id
     });
 
     const idempotency_key = uuid();
@@ -86,11 +82,11 @@ router.post('/stripe', async (req, res) => {
         description: product.name,
         shipping: {
           name: token.card.name,
-          address: product.address,
-        },
+          address: product.address
+        }
       },
       {
-        idempotency_key,
+        idempotency_key
       }
     );
     status = 'success';

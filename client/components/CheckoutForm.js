@@ -7,7 +7,7 @@ import { OrderSummary, InvalidCartMessage } from '../components';
 import {
   fetchShippingAddress,
   updateShippingAddress,
-  stripeCheckout,
+  stripeCheckout
 } from '../store/checkout';
 import StripeCheckout from 'react-stripe-checkout';
 require('../../secrets');
@@ -27,7 +27,7 @@ export class CheckoutForm extends React.Component {
       country: this.props.shippingAddress.country,
       streetAddress: this.props.shippingAddress.streetAddress,
       canCheckout: true,
-      emptyCart: false,
+      emptyCart: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -42,17 +42,17 @@ export class CheckoutForm extends React.Component {
     if (_.isEmpty(this.props.cart)) await this.props.getCart();
     if (!this.notEnoughStock()) {
       this.setState({
-        canCheckout: false,
+        canCheckout: false
       });
     }
     if (this.props.cart.products.length === 0) {
       this.setState({
-        emptyCart: true,
+        emptyCart: true
       });
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.shippingAddress) {
       if (this.props.shippingAddress !== nextProps.shippingAddress) {
         this.setState(nextProps.shippingAddress[0]);
@@ -62,7 +62,7 @@ export class CheckoutForm extends React.Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   }
 
@@ -91,8 +91,8 @@ export class CheckoutForm extends React.Component {
         line1: this.state.streetAddress,
         city: this.state.city,
         country: this.state.country,
-        postal_code: this.state.zipCode,
-      },
+        postal_code: this.state.zipCode
+      }
     };
     this.props.cShippingA({
       firstName: this.state.firstName,
@@ -102,7 +102,7 @@ export class CheckoutForm extends React.Component {
       zipCode: this.state.zipCode,
       state: this.state.state,
       country: this.state.country,
-      streetAddress: this.state.streetAddress,
+      streetAddress: this.state.streetAddress
     });
     const response = await this.props.stripeCheckout(token, product);
     if (response === 'success') {
@@ -246,7 +246,7 @@ export class CheckoutForm extends React.Component {
 const mapStateToProps = state => ({
   shippingAddress: state.shippingAddress,
   user: state.user,
-  cart: state.cart,
+  cart: state.cart
 });
 
 const mapDispatchToProps = dispatch => {
@@ -256,7 +256,7 @@ const mapDispatchToProps = dispatch => {
     stripeCheckout: (token, product) =>
       dispatch(stripeCheckout(token, product)),
     getCart: () => dispatch(getCart()),
-    placeOrder: cart => dispatch(placeOrderThunk(cart)),
+    placeOrder: cart => dispatch(placeOrderThunk(cart))
   };
 };
 

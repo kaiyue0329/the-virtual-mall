@@ -2,14 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getCart } from '../store/cart';
 import { CartItem } from '../components';
-import {
-  Item,
-  Container,
-  Message,
-  Button,
-  Header,
-  Segment
-} from 'semantic-ui-react';
+import { Item, Container, Message, Button, Header } from 'semantic-ui-react';
 
 const _ = require('lodash/lang');
 

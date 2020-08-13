@@ -92,7 +92,6 @@ class DesktopNav extends Component {
                     as={NavLink}
                     exact
                     to="/signup"
-                    primary={fixed}
                     style={{ marginLeft: '0.5em' }}
                   />
                 </Menu.Item>

@@ -18,7 +18,7 @@ const ChatInput = ({ sendMessage, currentChat }) => {
       }}
     >
       <TextareaAutosize
-        rows={2}
+        rows={1}
         style={{
           minWidth: '85%',
           resize: 'none',

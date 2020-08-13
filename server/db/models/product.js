@@ -6,42 +6,48 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   price: {
     type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   inventoryQuantity: {
     type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   description: {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   isAvailable: {
     type: Sequelize.BOOLEAN,
-    defaultValue: true,
+    defaultValue: true
   },
   picture: {
     type: Sequelize.STRING,
     default: 'https://robohash.org/default/?set=set4',
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
+  avgRating: {
+    type: Sequelize.DECIMAL,
+    validate: {
+      notEmpty: true
+    }
+  }
 });
 
 module.exports = Product;

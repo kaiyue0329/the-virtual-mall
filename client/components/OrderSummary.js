@@ -2,7 +2,7 @@ import React from 'react';
 import { OrderProduct } from '../components';
 import { cancelOrderThunk } from '../store/orders';
 import { connect } from 'react-redux';
-import { Item, Segment, Grid, Button } from 'semantic-ui-react';
+import { Item, Segment } from 'semantic-ui-react';
 
 export const OrderSummary = props => {
   const order = props.order;
@@ -39,7 +39,7 @@ export const OrderSummary = props => {
 };
 
 const mapDispatch = dispatch => ({
-  cancelOrder: orderId => dispatch(cancelOrderThunk(orderId)),
+  cancelOrder: orderId => dispatch(cancelOrderThunk(orderId))
 });
 
 export default connect(null, mapDispatch)(OrderSummary);

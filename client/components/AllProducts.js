@@ -3,59 +3,94 @@ import { connect } from 'react-redux';
 import { Card, Container, Pagination } from 'semantic-ui-react';
 import ProductsCard from './ProductCard';
 import AllProductsHeader from './AllProductsHeader';
-import { fetchProductsThunk } from '../store';
-import queryString from 'query-string';
+import { fetchProductsThunk, fetchCategoriesThunk } from '../store';
 
 class DisconnectedAllProducts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1
+      page: 1,
+      category: null,
+      sortBy: null,
+      searchQuery: ''
     };
   }
 
-  componentDidMount() {
-    const unparsed = this.props.location.search;
-    const query = queryString.parse(unparsed);
-    query.page = parseInt(query.page, 10);
+  handlePaginationChange = async (e, { activePage }) => {
+    await this.setState({ page: activePage });
+    await this.callThunk();
+  };
 
-    if (query.page) {
-      this.setState({ page: query.page });
-    }
+  handleInputChange = event => {
+    this.setState({ searchQuery: event.target.value });
+  };
 
-    this.props.getProducts(
+  handleFormSubmit = async () => {
+    await this.setState({ page: 1 });
+    this.callThunk();
+  };
+
+  sortProducts = async sortBy => {
+    await this.setState({ sortBy });
+    await this.setState({ page: 1 });
+    this.callThunk();
+  };
+
+  updateFilter = async category => {
+    await this.setState({ category });
+    await this.setState({ page: 1 });
+    this.callThunk();
+  };
+
+  callThunk = async () => {
+    await this.props.getProducts(
       this.state.page,
       this.state.category,
       this.state.sortBy,
       this.state.searchQuery
     );
-  }
-
-  handlePaginationChange = (e, { activePage }) => {
-    this.setState({ page: activePage });
-    this.callThunk();
-  };
-
-  callThunk = async () => {
-    await this.props.getProducts(this.state.page);
     window.scrollTo(0, 0);
   };
 
   render() {
     const products = this.props.products;
-    const { page } = this.state;
+    const { page, category, sortBy, searchQuery } = this.state;
 
     if (!products || products.length === 0) {
       return (
         <Container textAlign="center" style={{ marginTop: '1rem' }}>
-          <AllProductsHeader props={{ page: page }} />
+          <AllProductsHeader
+            props={{
+              page: page,
+              category: category,
+              sortBy: sortBy,
+              searchQuery: searchQuery
+            }}
+            handleInputChange={this.handleInputChange}
+            handleFormSubmit={this.handleFormSubmit}
+            sortProducts={this.sortProducts}
+            updateFilter={this.updateFilter}
+            productCategories={this.props.categories}
+          />
           <p>No Products Found</p>
         </Container>
       );
     }
     return (
       <Container textAlign="center" style={{ marginTop: '1rem' }}>
-        <AllProductsHeader />
+        <AllProductsHeader
+          props={{
+            page: page,
+            selectedCategory: category,
+            sortBy: sortBy,
+            searchQuery: searchQuery
+          }}
+          handleInputChange={this.handleInputChange}
+          handleFormSubmit={this.handleFormSubmit}
+          sortProducts={this.sortProducts}
+          updateFilter={this.updateFilter}
+          productCategories={this.props.categories}
+        />
         <Card.Group centered stackable>
           {products.map(product => (
             <ProductsCard product={product} key={product.id} />
@@ -79,14 +114,16 @@ class DisconnectedAllProducts extends React.Component {
 const mapState = state => {
   return {
     products: state.products.items,
-    pages: state.products.pages
+    pages: state.products.pages,
+    categories: state.categories
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     getProducts: (page, category, sortBy, searchQuery) =>
-      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery))
+      dispatch(fetchProductsThunk(page, category, sortBy, searchQuery)),
+    getCategories: () => dispatch(fetchCategoriesThunk())
   };
 };
 

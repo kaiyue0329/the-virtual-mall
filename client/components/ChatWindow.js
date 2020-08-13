@@ -47,9 +47,7 @@ const ChatWindow = ({
         <Grid.Column textAlign="center">
           <h3>{parseChatName(currentChat)[0]}</h3>
         </Grid.Column>
-        <Grid.Column textAlign="right" verticalAlign="middle">
-          <Icon name="save" size="big" style={{ cursor: 'pointer' }} />
-        </Grid.Column>
+        <Grid.Column textAlign="right" verticalAlign="middle"></Grid.Column>
       </Grid>
       <Divider />
       <List relaxed size="large" style={{ height: '545px', overflow: 'auto' }}>

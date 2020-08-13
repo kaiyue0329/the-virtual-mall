@@ -13,8 +13,8 @@ router.get('/', async (req, res, next) => {
   const PAGE_SIZE = 12;
   const CATEGORY_FILTER = req.query.category;
   const SEARCH_FILTER = req.query.searchBy;
-  const SORT_BY = req.query.sortBy || 'id';
-  const OFFSET_VALUE = (page - 1) * PAGE_SIZE || 1;
+  let SORT_BY = req.query.sortBy || 'id';
+  const OFFSET_VALUE = (page - 1) * PAGE_SIZE || 0;
 
   //create dynamic query
   const createQuery = () => {
@@ -59,35 +59,14 @@ router.get('/', async (req, res, next) => {
         }
       ],
       where: query.searchQuery,
-      order: [SORT_BY],
+      order:
+        SORT_BY === 'avgRating'
+          ? [['avgRating', 'DESC NULLS LAST']]
+          : [SORT_BY],
       limit: PAGE_SIZE,
       offset: OFFSET_VALUE
     });
     res.json({ results, pages });
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/topRated', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      include: [{ model: Reviews }, { model: Category }]
-    });
-    console.log('top rate', products[0].dataValues);
-    let recommendedProducts = [];
-    products.map(product => {
-      let total = 0;
-      product.dataValues.reviews.map(review => {
-        total += review.dataValues.star;
-      });
-      const avg = Math.floor(total / product.reviews.length);
-      if (avg >= 4 && recommendedProducts.length < 6) {
-        recommendedProducts.push(product);
-      }
-    });
-    console.log('recommedned', recommendedProducts);
-    res.json(products);
   } catch (error) {
     next(error);
   }

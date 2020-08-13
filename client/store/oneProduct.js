@@ -4,7 +4,7 @@ const GET_ONE_PRODUCT = 'GET_ONE_PRODUCT';
 
 export const setOneProduct = oneProduct => ({
   type: GET_ONE_PRODUCT,
-  oneProduct,
+  oneProduct
 });
 
 export const getOneProduct = id => async dispatch => {
@@ -12,11 +12,13 @@ export const getOneProduct = id => async dispatch => {
   dispatch(setOneProduct(oneProduct));
 };
 
-export function oneProductReducer(oneProduct = '', action) {
+const initialState = { oneProduct: '' };
+
+export function oneProductReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ONE_PRODUCT:
       return action.oneProduct;
     default:
-      return oneProduct;
+      return state;
   }
 }

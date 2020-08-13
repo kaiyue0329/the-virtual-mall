@@ -18,7 +18,7 @@ export const fetchProductsThunk = (page, category, sortBy, searchQuery) => {
       queryString += `&category=${category}`;
     }
     if (sortBy) {
-      queryString += `&sortBy=${sortBy.toLowerCase()}`;
+      queryString += `&sortBy=${sortBy}`;
     }
     if (searchQuery) {
       queryString += `&searchBy=${searchQuery}`;

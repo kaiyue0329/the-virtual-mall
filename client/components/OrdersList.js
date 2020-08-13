@@ -11,7 +11,6 @@ class OrdersList extends Component {
 
   render() {
     const orders = this.props.orders;
-    console.log(orders);
     return (
       <Container style={{ marginTop: '1rem' }}>
         <Header as="h1">Your Orders:</Header>
