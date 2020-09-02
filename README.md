@@ -2,6 +2,8 @@
 
 An e-commerce web application with a product catalog, cart, checkout, customer reviews, authentication, product searching and different product sorting options. Session persistence of the cart is also implemented for unauthenticated users. Customer support live chat implemented using React Hooks and Firebase Realtime Database.
 
+**Demo:** https://youtu.be/8WrbguKxzbk
+
 ### Prerequisites
 
 - PostgreSQL
